@@ -4,27 +4,27 @@
 
 ## 登陆页面
 
-![登录](https://raw.githubusercontent.com/lenve/VBlog/master/doc/login.png)
+![登录](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/login.png)
 
 ## 文章列表
 
-![文章列表](https://raw.githubusercontent.com/lenve/VBlog/master/doc/article.png)
+![文章列表](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/article.png)
 
 ## 发表文章
 
-![发表文章](https://raw.githubusercontent.com/lenve/VBlog/master/doc/post.png)
+![发表文章](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/post.png)
 
 ## 用户管理
 
-![用户管理](https://raw.githubusercontent.com/lenve/VBlog/master/doc/usermana.png)
+![用户管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/usermana.png)
 
 ## 栏目管理
 
-![栏目管理](https://raw.githubusercontent.com/lenve/VBlog/master/doc/category.png)
+![栏目管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/category.png)
 
 ## 数据统计
 
-![数据统计](https://raw.githubusercontent.com/lenve/VBlog/master/doc/datastatistics.png)
+![数据统计](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/datastatistics.png)
 
 # 技术栈
 
@@ -56,8 +56,10 @@
 1.克隆本项目到本地
 
 ```
-git@github.com:lenve/VBlog.git
-```  
+git@github.com:fmz200/myDemo-web.git
+
+git@github.com:fmz200/myDemo.git
+```
 
 2.找到blogserver项目中resources目录下的vueblog.sql文件，在MySQL数据库中执行  
 3.根据自己本地情况修改数据库配置，数据库配置在SpringBoot项目的application.properties中  
@@ -100,4 +102,4 @@ MIT
 
 ## 其他
 
-Forked from https://github.com/lenve/VBlog ，进行二次开发，前后端分离成了两个项目。
+Forked from https://github.com/fmz200/myDemo-web/blob ，进行二次开发，前后端分离成了两个项目。

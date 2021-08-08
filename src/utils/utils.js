@@ -7,3 +7,7 @@ export const isNotNullORBlank = (...args)=> {
   }
   return true;
 }
+
+export const isEmpty = (argument)=> {
+  return argument == null || argument == '' || argument == undefined;
+}

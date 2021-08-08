@@ -9,7 +9,13 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <el-input v-model="article.title" placeholder="请输入标题..." style="width: 400px;margin-left: 10px"></el-input>
+      <el-input
+          v-model="article.title"
+          minlength=5
+          maxlength=30
+          placeholder="请输入标题..."
+          style="width: 400px;margin-left: 10px">
+      </el-input>
       <el-tag
         :key="tag"
         v-for="tag in article.dynamicTags"
@@ -57,7 +63,7 @@
   import {mavonEditor} from 'mavon-editor'
   // 可以通过 mavonEditor.markdownIt 获取解析器markdown-it对象
   import 'mavon-editor/dist/css/index.css'
-  import {isNotNullORBlank} from '../utils/utils'
+  import {isEmpty, isNotNullORBlank} from '../utils/utils'
 
   export default {
     mounted: function () {
@@ -95,10 +101,19 @@
         this.$router.go(-1)
       },
       saveBlog(state){
-        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cid))) {
-          this.$message({type: 'error', message: '数据不能为空!'});
+        if (isEmpty(this.article.cid)) {
+          this.$message({type: 'error', message: '请选择文章栏目!'});
           return;
         }
+        if (isEmpty(this.article.title)) {
+          this.$message({type: 'error', message: '请输入标题!'});
+          return;
+        }
+        if (isEmpty(this.article.mdContent)) {
+          this.$message({type: 'error', message: '请输入文章内容!'});
+          return;
+        }
+
         var _this = this;
         _this.loading = true;
         postRequest("/article/", {
