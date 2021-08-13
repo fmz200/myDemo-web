@@ -36,20 +36,21 @@
       </el-table-column>
       <el-table-column
           label="标题"
-          width="400"
+          width="500"
           align="left">
         <template slot-scope="scope">
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
             {{ scope.row.title }}
           </span>
+          <p>{{ scope.row.summary + "..."}}</p>
         </template>
       </el-table-column>
-      <el-table-column
+<!--      <el-table-column
           prop="summary"
           label="摘要"
           width="400"
           align="left">
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column
           label="发表时间"
           width="140"
@@ -293,5 +294,8 @@ export default {
   padding-bottom: 0px;
   margin-bottom: 0px;
   justify-content: space-between;
+}
+p {
+  font-size: 3px;
 }
 </style>
