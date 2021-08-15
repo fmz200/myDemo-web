@@ -123,7 +123,8 @@
           htmlContent: _this.$refs.md.d_render,
           cid: _this.article.cid,
           state: state,
-          dynamicTags: _this.article.dynamicTags
+          dynamicTags: _this.article.dynamicTags,
+          source: _this.article.state
         }).then(resp=> {
           _this.loading = false;
           if (resp.status == 200 && resp.data.status == 'success') {
@@ -132,9 +133,9 @@
 //            if (_this.from != undefined) {
             window.bus.$emit('blogTableReload')
 //            }
-            if (state == 1) {
+//            if (state == 1) {
               _this.$router.replace({path: '/articleList'});
-            }
+//            }
           }
         }, resp=> {
           _this.loading = false;

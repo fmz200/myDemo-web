@@ -3,6 +3,7 @@
     <div style="display: flex;justify-content: flex-start">
       <el-input
           placeholder="通过标题搜索该分类下的博客..."
+          maxlength=30
           prefix-icon="el-icon-search"
           v-model="keywords"
           clearable=true
@@ -25,9 +26,14 @@
         :data="articles"
         tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
-        max-height="600"
+        height="600"
         @selection-change="handleSelectionChange"
         v-loading="loading">
+      <el-table-column
+          width="35"
+          align="left"
+          v-if="!showEdit && !showDelete">
+      </el-table-column>
       <el-table-column
           type="selection"
           width="35"
@@ -42,15 +48,9 @@
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
             {{ scope.row.title }}
           </span>
-          <p>{{ scope.row.summary + "..."}}</p>
+<!-- <p>{{ scope.row.summary + "..."}}</p>-->
         </template>
       </el-table-column>
-<!--      <el-table-column
-          prop="summary"
-          label="摘要"
-          width="400"
-          align="left">
-      </el-table-column>-->
       <el-table-column
           label="发表时间"
           width="140"
@@ -82,6 +82,11 @@
           prop="pageView"
           label="浏览次数"
           width="80" align="left">
+      </el-table-column>
+      <el-table-column
+          label=""
+          align="left"
+          v-if="!showEdit && !showDelete">
       </el-table-column>
       <el-table-column
           label="操作"
