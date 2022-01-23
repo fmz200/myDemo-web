@@ -1,31 +1,5 @@
 # myDemo-web
 
-# 项目效果图
-
-## 登陆页面
-
-![登录](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/login.png)
-
-## 文章列表
-
-![文章列表](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/article.png)
-
-## 发表文章
-
-![发表文章](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/post.png)
-
-## 用户管理
-
-![用户管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/usermana.png)
-
-## 栏目管理
-
-![栏目管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/category.png)
-
-## 数据统计
-
-![数据统计](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/datastatistics.png)
-
 # 技术栈
 
 ## 后端技术栈
@@ -90,6 +64,32 @@ npm run build
 
 **步骤5中需要大家对NodeJS、NPM等有一定的使用经验，不熟悉的小伙伴可以先自行搜索学习下，推荐[Vue官方教程](https://cn.vuejs.org/v2/guide/)。**
 
+
+# 项目效果图
+
+## 登陆页面
+
+![登录](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/login.png)
+
+## 文章列表
+
+![文章列表](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/article.png)
+
+## 发表文章
+
+![发表文章](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/post.png)
+
+## 用户管理
+
+![用户管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/usermana.png)
+
+## 栏目管理
+
+![栏目管理](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/category.png)
+
+## 数据统计
+
+![数据统计](https://raw.githubusercontent.com/fmz200/myDemo-web/master/doc/datastatistics.png)
 
 # 项目依赖
 

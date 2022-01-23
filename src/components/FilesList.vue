@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="files_list">
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
       <el-col span="8">
         <el-col span="8" >
@@ -317,7 +317,7 @@ export default {
     loadBlogs(page, count) {
       var _this = this;
       _this.loading = true;
-debugger;
+      debugger;
       // null问题
       var start = this.publishDateStart == null ? "" : this.publishDateStart;
       var end = this.publishDateEnd == null ? "" : this.publishDateEnd;
@@ -525,6 +525,10 @@ debugger;
 </script>
 
 <style type="text/css">
+.files_list {
+  margin-top: 20px;
+}
+
 .blog_table_footer {
   display: flex;
   box-sizing: content-box;

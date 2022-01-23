@@ -8,6 +8,7 @@ import DataCharts from '@/components/DataCharts'
 import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
+import FilesList from '@/components/FilesList'
 
 Vue.use(Router)
 
@@ -26,19 +27,19 @@ export default new Router({
     }, {
       path: '/home',
       component: Home,
-      name: '文章管理',
+      name: '博客管理',
       iconCls: 'fa fa-file-text-o',
       children: [
         {
           path: '/articleList',
-          name: '文章列表',
+          name: '博客列表',
           component: ArticleList,
           meta: {
             keepAlive: true
           }
         }, {
           path: '/postArticle',
-          name: '发表文章',
+          name: '发表博客',
           component: PostArticle,
           meta: {
             keepAlive: false
@@ -56,6 +57,28 @@ export default new Router({
           name: '编辑博客',
           component: PostArticle,
           hidden: true,
+          meta: {
+            keepAlive: false
+          }
+        }
+      ]
+    }, {
+      path: '/home',
+      component: Home,
+      name: '文件管理',
+      iconCls: 'fa fa-file-text-o',
+      children: [
+        {
+          path: '/filesList',
+          name: '文件列表',
+          component: FilesList,
+          meta: {
+            keepAlive: true
+          }
+        }, {
+          path: '/postArticle',
+          name: '文件上传',
+          component: PostArticle,
           meta: {
             keepAlive: false
           }
