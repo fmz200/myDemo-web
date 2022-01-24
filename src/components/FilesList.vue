@@ -53,7 +53,7 @@
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
       <el-col span="8">
         <el-col span="8">
-          发表时间范围：
+          修改时间范围：
         </el-col>
         <el-date-picker
             format="yyyy-MM-dd"
@@ -78,7 +78,7 @@
 
       <el-col span="8">
         <el-col span="8">
-          编辑时间范围：
+          修改时间范围：
         </el-col>
         <el-date-picker
             format="yyyy-MM-dd"
