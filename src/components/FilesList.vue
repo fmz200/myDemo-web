@@ -2,12 +2,12 @@
   <div class="files_list">
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
       <el-col span="8">
-        <el-col span="8" >
-          标题：
+        <el-col span="8">
+          文件名：
         </el-col>
         <el-input
             maxlength=50
-            v-model="title"
+            v-model="fileName"
             placeholder="支持模糊查询"
             clearable=true
             style="width: 150px"
@@ -17,11 +17,11 @@
 
       <el-col span="8">
         <el-col span="8">
-          作者：
+          归属用户：
         </el-col>
         <el-input
             maxlength=50
-            v-model="nickname"
+            v-model="attrUser"
             placeholder="请输入作者"
             clearable=true
             style="width: 150px"
@@ -34,7 +34,7 @@
           归属分类：
         </el-col>
         <el-select
-            v-model="cid"
+            v-model="categoryId"
             clearable=true
             style="width: 150px"
             size="mini">
@@ -53,12 +53,12 @@
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
       <el-col span="8">
         <el-col span="8">
-          修改时间范围：
+          上传时间范围：
         </el-col>
         <el-date-picker
             format="yyyy-MM-dd"
-            value-format="yyyyMMdd"
-            v-model="publishDateStart"
+            value-format="yyyy-MM-dd"
+            v-model="uploadTimeStart"
             clearable=true
             placeholder="开始时间"
             style="width: 150px"
@@ -67,8 +67,8 @@
         <span>-</span>
         <el-date-picker
             format="yyyy-MM-dd"
-            value-format="yyyyMMdd"
-            v-model="publishDateEnd"
+            value-format="yyyy-MM-dd"
+            v-model="uploadTimeEnd"
             clearable=true
             placeholder="结束时间"
             style="width: 150px"
@@ -82,7 +82,7 @@
         </el-col>
         <el-date-picker
             format="yyyy-MM-dd"
-            value-format="yyyyMMdd"
+            value-format="yyyy-MM-dd"
             v-model="editTimeStart"
             clearable=true
             placeholder="开始时间"
@@ -92,7 +92,7 @@
         <span>-</span>
         <el-date-picker
             format="yyyy-MM-dd"
-            value-format="yyyyMMdd"
+            value-format="yyyy-MM-dd"
             v-model="editTimeEnd"
             clearable=true
             placeholder="结束时间"
@@ -121,83 +121,85 @@
     <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>
     <el-table
         ref="multipleTable"
-        :data="articles"
-        tooltip-effect="dark"
+        :data="filesInfoList"
+        tooltip-effect="light"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
         height="600"
         @selection-change="handleSelectionChange"
         v-loading="loading">
       <el-table-column
-          width="35"
-          align="left"
-          v-if="!showEdit && !showDelete">
-      </el-table-column>
-      <el-table-column
           type="selection"
           width="35"
           align="left"
-          v-if="showEdit || showDelete">
+      >
       </el-table-column>
       <el-table-column
-          label="标题"
-          width="500"
+          label="文件名"
+          width="150"
           align="left">
         <template slot-scope="scope">
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
-            {{ scope.row.title }}
+            {{ scope.row.fileName }}
           </span>
           <!-- <p>{{ scope.row.summary + "..."}}</p>-->
         </template>
       </el-table-column>
       <el-table-column
-          label="发表时间"
-          width="140"
+          prop="fileType"
+          label="文件类型"
+          width="100"
+          align="left">
+      </el-table-column>
+      <el-table-column
+          prop="fileSize"
+          label="文件大小"
+          width="100"
+          align="left">
+      </el-table-column>
+      <el-table-column
+          label="上传时间"
+          width="150"
           align="left">
         <template slot-scope="scope">
-          {{ scope.row.publishDate | formatDateTime }}
+          {{ scope.row.uploadTime | formatDateTime }}
         </template>
       </el-table-column>
       <el-table-column
-          label="编辑时间"
-          width="140"
+          label="修改时间"
+          width="150"
           align="left">
         <template slot-scope="scope">
           {{ scope.row.editTime | formatDateTime }}
         </template>
       </el-table-column>
       <el-table-column
-          prop="nickname"
-          label="作者"
+          prop="attrUser"
+          label="归属用户"
           width="120"
           align="left">
       </el-table-column>
       <el-table-column
-          prop="cateName"
+          prop="categoryName"
           label="所属分类"
           width="120" align="left">
       </el-table-column>
       <el-table-column
-          prop="pageView"
-          label="浏览次数"
+          prop="downloadTimes"
+          label="下载次数"
           width="80" align="left">
-      </el-table-column>
-      <el-table-column
-          label=""
-          align="left"
-          v-if="!showEdit && !showDelete">
       </el-table-column>
       <el-table-column
           label="操作"
           align="left"
-          v-if="showEdit || showDelete">
+          width="120">
         <template slot-scope="scope">
           <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)" v-if="showEdit">编辑
+              @click="handleEdit(scope.$index, scope.row)" v-if="showEdit">重新上传
           </el-button>
           <el-button
               size="mini"
-              @click="handleRestore(scope.$index, scope.row)" v-if="showRestore">还原
+              @click="handleRestore(scope.$index, scope.row)" v-if="showRestore">下载
           </el-button>
           <el-button
               size="mini"
@@ -211,11 +213,20 @@
       <el-button
           type="danger"
           size="mini"
-          style="margin: 0px;"
-          v-show="this.articles.length>0 && showDelete"
+          style="margin: 0;"
+          v-show="this.filesInfoList.length>0"
           :disabled="this.selItems.length==0"
           @click="deleteMany">
         批量删除
+      </el-button>
+      <el-button
+          type="info"
+          size="mini"
+          style="margin: 0;"
+          v-show="this.filesInfoList.length>0"
+          :disabled="this.selItems.length==0"
+          @click="deleteMany">
+        批量下载
       </el-button>
       <span></span>
       <el-pagination
@@ -224,7 +235,8 @@
           layout="total, prev, pager, next, sizes"
           :total="totalCount"
           @current-change="currentChange"
-          v-show="this.articles.length>0">
+          @size-change="pageSizeChange"
+          v-show="this.filesInfoList.length>0">
       </el-pagination>
     </div>
   </div>
@@ -233,14 +245,12 @@
 <script>
 import {postRequest, putRequest} from '../utils/api'
 import {getRequest} from '../utils/api'
-import {dev} from "../../config";
-//  import Vue from 'vue'
-//  var bus = new Vue()
+import {isEmpty} from "../utils/utils";
 
 export default {
   data() {
     return {
-      articles: [],
+      filesInfoList: [],
       selItems: [],
       loading: false,
       currentPage: 1,
@@ -249,50 +259,57 @@ export default {
       keywords: '',
       dustbinData: [],
       categories: [],
-      title: '',
-      main_code: '',
-      publishDateStart: '',
-      publishDateEnd: '',
+      fileName: '',
+      fileType: '',
+      fileSize: '',
+      filePtah: '',
+      uploadTime: '',
+      editTime: '',
+      attrUser: '',
+      categoryId: '',
+      categoryName: '',
+      downloadTimes: 0,
+      state: '',
+      uploadTimeStart: '',
+      uploadTimeEnd: '',
       editTimeStart: '',
-      editTimeEnd: '',
-      nickname: '',
-      cid: ''
+      editTimeEnd: ''
     }
   },
   mounted: function () {
     var _this = this;
     this.loading = true;
     this.getCategories();
-    this.loadBlogs(1, this.pageSize);
+    this.loadFilesInfoList(1, this.pageSize);
     var _this = this;
     window.bus.$on('blogTableReload', function () {
       _this.loading = true;
-      _this.loadBlogs(_this.currentPage, _this.pageSize);
+      _this.loadFilesInfoList(_this.currentPage, _this.pageSize);
     })
   },
 
   methods: {
 
-    getCategories(){
+    getCategories() {
       let _this = this;
-      getRequest("/admin/category/all").then(resp=> {
+      getRequest("/admin/category/all").then(resp => {
         _this.categories = resp.data;
       });
     },
 
     searchClick() {
-      this.loadBlogs(1, this.pageSize);
+      this.loadFilesInfoList(1, this.pageSize);
     },
 
     resetParam() {
-      this.title = '';
+      this.fileName = '';
       this.main_code = '';
-      this.publishDateStart = '';
-      this.publishDateEnd = '';
+      this.uploadTimeStart = '';
+      this.uploadTimeEnd = '';
       this.editTimeStart = '';
       this.editTimeEnd = '';
-      this.nickname = '';
-      this.cid = '';
+      this.fileType = '';
+      this.attrUser = '';
     },
 
     itemClick(row) {
@@ -310,49 +327,49 @@ export default {
     //翻页
     currentChange(currentPage) {
       this.currentPage = currentPage;
-      this.loading = true;
-      this.loadBlogs(currentPage, this.pageSize);
+      this.loadFilesInfoList(currentPage, this.pageSize);
     },
 
-    loadBlogs(page, count) {
+    // x条/页
+    pageSizeChange(pageSize) {
+      this.pageSize = pageSize;
+      this.loadFilesInfoList(1, this.pageSize);
+    },
+
+    loadFilesInfoList(pageNum, pageSize) {
       var _this = this;
       _this.loading = true;
       debugger;
       // null问题
-      var start = this.publishDateStart == null ? "" : this.publishDateStart;
-      var end = this.publishDateEnd == null ? "" : this.publishDateEnd;
+      var start = this.uploadTimeStart == null ? "" : this.uploadTimeStart;
+      var end = this.uploadTimeEnd == null ? "" : this.uploadTimeEnd;
       var editTimeStart = this.editTimeStart == null ? "" : this.editTimeStart;
       var editTimeEnd = this.editTimeEnd == null ? "" : this.editTimeEnd;
-      var params = "&title=" + this.title
-          + "&main_code=" + this.main_code
-          + "&publishDateStart=" + start
-          + "&publishDateEnd=" + end
-          + "&nickname=" + this.nickname
-          + "&cid=" + this.cid
-      ;
+      var state = isEmpty(this.state) ? "" : this.state;
       var param = {
-        title: this.title,
-        nickname: this.nickname,
-        cid: this.cid,
-        publishDateStart: start,
-        publishDateEnd: end,
+        fileName: this.fileName,
+        fileType: this.fileType,
+        attrUser: this.attrUser,
+        categoryId: this.categoryId,
+        uploadTimeStart: start,
+        uploadTimeEnd: end,
         editTimeStart: editTimeStart,
         editTimeEnd: editTimeEnd,
-        state: this.state,
-        page: page,
-        count: count
+        state: state,
+        pageNum: pageNum,
+        pageSize: pageSize
       };
       var url = '';
-      if (this.state == -2) {
-        url = "/admin/article/all" //+ "?page=" + page + "&count=" + count + params;
+      if (state == -2) {
+        url = "/admin/filesController/all"
       } else {
-        url = "/article/all"// + "?state=" + this.state + "&page=" + page + "&count=" + count + params;
+        url = "/filesController/queryFilesInfo"
       }
 
       postRequest(url, param).then(resp => {
         _this.loading = false;
         if (resp.status == 200) {
-          _this.articles = resp.data.articles;
+          _this.filesInfoList = resp.data.filesInfoList;
           _this.totalCount = resp.data.totalCount;
         } else {
           _this.$message({type: 'error', message: '数据加载失败!'});
@@ -375,6 +392,7 @@ export default {
     handleSelectionChange(val) {
       this.selItems = val;
     },
+
     handleEdit(index, row) {
       this.$router.push({path: '/editBlog', query: {from: this.activeName, id: row.id}});
     },
@@ -533,12 +551,8 @@ export default {
   display: flex;
   box-sizing: content-box;
   padding-top: 10px;
-  padding-bottom: 0px;
-  margin-bottom: 0px;
+  padding-bottom: 0;
+  margin-bottom: 0;
   justify-content: space-between;
-}
-
-p {
-  font-size: 3px;
 }
 </style>

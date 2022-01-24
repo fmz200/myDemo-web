@@ -182,11 +182,6 @@
           width="80" align="left">
       </el-table-column>
       <el-table-column
-          label=""
-          align="left"
-          v-if="!showEdit && !showDelete">
-      </el-table-column>
-      <el-table-column
           label="操作"
           align="left"
           v-if="showEdit || showDelete">
