@@ -9,7 +9,7 @@ import PostArticle from '@/components/PostArticle'
 import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
 import FilesList from '@/components/FilesList'
-import UploadFiles from '@/components/UploadFiles'
+import FilesUpload from '@/components/FilesUpload'
 
 Vue.use(Router)
 
@@ -79,7 +79,7 @@ export default new Router({
         }, {
           path: '/uploadFiles',
           name: '文件上传',
-          component: UploadFiles,
+          component: FilesUpload,
           meta: {
             keepAlive: false
           }
