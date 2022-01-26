@@ -122,7 +122,7 @@
     <el-table
         ref="multipleTable"
         :data="filesInfoList"
-        tooltip-effect="light"
+        tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
         height="600"
         @selection-change="handleSelectionChange"
@@ -195,16 +195,20 @@
         <template slot-scope="scope">
           <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)" v-if="showEdit">重新上传
+              @click="handleEdit(scope.$index, scope.row)">
+            重新上传
           </el-button>
           <el-button
               size="mini"
-              @click="handleRestore(scope.$index, scope.row)" v-if="showRestore">下载
+              type="primary"
+              @click="handleDownload(scope.$index, scope.row)">
+            下载
           </el-button>
           <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)" v-if="showDelete">删除
+              type="info"
+              @click="handleDelete(scope.$index, scope.row)">
+            删除
           </el-button>
         </template>
       </el-table-column>
@@ -448,7 +452,7 @@ export default {
 
     // 下载一个
     handleDownload(index, row) {
-      this.downloadFiles(row.uuid);
+      this.downloadFiles(row.fileId);
     },
 
     downloadFiles(param) {
@@ -462,33 +466,9 @@ export default {
         debugger;
         console.log("........................." + param);
         // 方法一
-        window.location.href = '/interfaceLog/downloadInterfaceLogs?paramListString=' + param;
-
-        // 方法二,打包到Java不好使
-        /*var elemIF = document.createElement('iframe');
-        elemIF.src = '/interfaceLog/downloadInterfaceLogs?paramListString=' + str;
-        elemIF.style.display = 'none';
-        document.body.appendChild(elemIF);*/
-
+        window.location.href = '/filesController/downloadFiles?paramListString=' + param;
         _this.loading = false;
-        _this.$message({type: 'success', message: "请求成功！若文件未下载可能是后台报错！"});
-        /*        getRequest('/interfaceLog/downloadInterfaceLogs', {
-                  /!*interfaceInfoBeanList: paramList,*!/
-                  paramListString: JSON.stringify(paramList)
-                }).then(resp => {
-                  _this.loading = false;
-                  if (resp.status == 200) {
-                    _this.$message({type: 'success', message: "操作成功！附件未下载请查看后台日志是否报错。"});
-                    var data = resp.data;
-                    if (data.code == 200) {
-                      _this.$message({type: 'success', message: data.msg});
-                    } else {
-                      _this.$message({type: 'warning', message: data.msg});
-                    }
-                  } else {
-                    _this.$message({type: 'error', message: '下载失败!'});
-                  }
-                });*/
+        _this.$message({type: 'success', message: "请求成功！若文件未下载请稍后再试！"});
       }).catch(() => {
         _this.loading = false;
         _this.$message({

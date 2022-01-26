@@ -59,15 +59,13 @@
 </template>
 <script>
   import {postRequest} from '../utils/api'
-  import {putRequest} from '../utils/api'
-  import {deleteRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
   import {uploadFileRequest} from '../utils/api'
   // Local Registration
   import {mavonEditor} from 'mavon-editor'
   // 可以通过 mavonEditor.markdownIt 获取解析器markdown-it对象
   import 'mavon-editor/dist/css/index.css'
-  import {isEmpty, isNotNullORBlank} from '../utils/utils'
+  import {isEmpty} from '../utils/utils'
 
   export default {
     mounted: function () {
