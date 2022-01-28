@@ -22,7 +22,7 @@
         <el-input
             maxlength=50
             v-model="attrUser"
-            placeholder="请输入作者"
+            placeholder="请输入用户"
             clearable
             style="width: 150px"
             size="mini">
@@ -129,13 +129,14 @@
         v-loading="loading">
       <el-table-column
           type="selection"
-          width="35"
+          min-width="5%"
           align="left"
       >
       </el-table-column>
       <el-table-column
           label="文件名"
-          width="150"
+          min-width="20%"
+          show-overflow-tooltip
           align="left">
         <template slot-scope="scope">
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
@@ -147,18 +148,18 @@
       <el-table-column
           prop="fileType"
           label="文件类型"
-          width="100"
+          min-width="10%"
           align="left">
       </el-table-column>
       <el-table-column
           prop="fileSize"
           label="文件大小"
-          width="100"
+          min-width="10%"
           align="left">
       </el-table-column>
       <el-table-column
           label="上传时间"
-          width="150"
+          min-width="10%"
           align="left">
         <template slot-scope="scope">
           {{ scope.row.uploadTime | formatDateTime }}
@@ -166,7 +167,7 @@
       </el-table-column>
       <el-table-column
           label="修改时间"
-          width="150"
+          min-width="10%"
           align="left">
         <template slot-scope="scope">
           {{ scope.row.editTime | formatDateTime }}
@@ -175,22 +176,25 @@
       <el-table-column
           prop="attrUser"
           label="归属用户"
-          width="120"
+          min-width="10%"
           align="left">
       </el-table-column>
       <el-table-column
           prop="categoryName"
           label="所属分类"
-          width="120" align="left">
+          min-width="10%"
+          align="left">
       </el-table-column>
       <el-table-column
           prop="downloadTimes"
           label="下载次数"
-          width="80" align="left">
+          min-width="10%"
+          align="left">
       </el-table-column>
       <el-table-column
           label="操作"
-          align="left">
+          align="left"
+          min-width="20%">
         <template slot-scope="scope">
           <el-button
               size="mini"
