@@ -9,7 +9,7 @@
             maxlength=50
             v-model="fileName"
             placeholder="支持模糊查询"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
         </el-input>
@@ -23,7 +23,7 @@
             maxlength=50
             v-model="attrUser"
             placeholder="请输入作者"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
         </el-input>
@@ -35,7 +35,7 @@
         </el-col>
         <el-select
             v-model="categoryId"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
           <el-option
@@ -59,7 +59,7 @@
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
             v-model="uploadTimeStart"
-            clearable=true
+            clearable
             placeholder="开始时间"
             style="width: 150px"
             size="mini">
@@ -69,7 +69,7 @@
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
             v-model="uploadTimeEnd"
-            clearable=true
+            clearable
             placeholder="结束时间"
             style="width: 150px"
             size="mini">
@@ -84,7 +84,7 @@
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
             v-model="editTimeStart"
-            clearable=true
+            clearable
             placeholder="开始时间"
             style="width: 150px"
             size="mini">
@@ -94,7 +94,7 @@
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
             v-model="editTimeEnd"
-            clearable=true
+            clearable
             placeholder="结束时间"
             style="width: 150px"
             size="mini">
@@ -120,11 +120,11 @@
     </div>
     <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>
     <el-table
+        stripe
         ref="multipleTable"
         :data="filesInfoList"
         tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
-        height="600"
         @selection-change="handleSelectionChange"
         v-loading="loading">
       <el-table-column
@@ -190,14 +190,8 @@
       </el-table-column>
       <el-table-column
           label="操作"
-          align="left"
-          width="120">
+          align="left">
         <template slot-scope="scope">
-          <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)">
-            重新上传
-          </el-button>
           <el-button
               size="mini"
               type="primary"
@@ -207,33 +201,36 @@
           <el-button
               size="mini"
               type="info"
+              @click="handleEdit(scope.$index, scope.row)">
+            重新上传
+          </el-button>
+          <el-button
+              size="mini"
               @click="handleDelete(scope.$index, scope.row)">
             删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <div class="blog_table_footer">
+    <div class="file_table_footer">
       <el-button
-          type="danger"
+          type="info"
           size="mini"
-          style="margin: 0;"
+          v-show="this.filesInfoList.length>0"
+          :disabled="this.selItems.length==0"
+          @click="handleBatchDownload">
+        批量下载
+      </el-button>
+      <el-button
+          size="mini"
           v-show="this.filesInfoList.length>0"
           :disabled="this.selItems.length==0"
           @click="deleteMany">
         批量删除
       </el-button>
-      <el-button
-          type="info"
-          size="mini"
-          style="margin: 0;"
-          v-show="this.filesInfoList.length>0"
-          :disabled="this.selItems.length==0"
-          @click="deleteMany">
-        批量下载
-      </el-button>
       <span></span>
       <el-pagination
+          float:right
           background
           :page-size="pageSize"
           layout="total, prev, pager, next, sizes"
@@ -320,14 +317,6 @@ export default {
       this.$router.push({path: '/blogDetail', query: {aid: row.id}})
     },
 
-    deleteMany() {
-      var selItems = this.selItems;
-      for (var i = 0; i < selItems.length; i++) {
-        this.dustbinData.push(selItems[i].id)
-      }
-      this.deleteToDustBin(selItems[0].state)
-    },
-
     //翻页
     currentChange(currentPage) {
       this.currentPage = currentPage;
@@ -402,7 +391,7 @@ export default {
     },
 
     handleDelete(index, row) {
-      this.dustbinData.push(row.id);
+      this.dustbinData.push(row.fileId);
       this.deleteToDustBin(row.state);
     },
 
@@ -436,6 +425,14 @@ export default {
 
     handleShowLogDetail(index, row) {
       this.itemClick(row);
+    },
+
+    deleteMany() {
+      var selItems = this.selItems;
+      for (var i = 0; i < selItems.length; i++) {
+        this.dustbinData.push(selItems[i].id)
+      }
+      this.deleteToDustBin(selItems[0].state);
     },
 
     // 批量下载
@@ -527,12 +524,12 @@ export default {
   margin-top: 20px;
 }
 
-.blog_table_footer {
+.file_table_footer {
   display: flex;
   box-sizing: content-box;
   padding-top: 10px;
   padding-bottom: 0;
   margin-bottom: 0;
-  justify-content: space-between;
+
 }
 </style>

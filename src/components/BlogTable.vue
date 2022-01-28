@@ -9,7 +9,7 @@
             maxlength=50
             v-model="title"
             placeholder="支持模糊查询"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
         </el-input>
@@ -23,7 +23,7 @@
             maxlength=50
             v-model="nickname"
             placeholder="请输入作者"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
         </el-input>
@@ -35,7 +35,7 @@
         </el-col>
         <el-select
             v-model="cid"
-            clearable=true
+            clearable
             style="width: 150px"
             size="mini">
           <el-option
@@ -59,7 +59,7 @@
             format="yyyy-MM-dd"
             value-format="yyyyMMdd"
             v-model="publishDateStart"
-            clearable=true
+            clearable
             placeholder="开始时间"
             style="width: 150px"
             size="mini">
@@ -69,7 +69,7 @@
             format="yyyy-MM-dd"
             value-format="yyyyMMdd"
             v-model="publishDateEnd"
-            clearable=true
+            clearable
             placeholder="结束时间"
             style="width: 150px"
             size="mini">
@@ -84,7 +84,7 @@
             format="yyyy-MM-dd"
             value-format="yyyyMMdd"
             v-model="editTimeStart"
-            clearable=true
+            clearable
             placeholder="开始时间"
             style="width: 150px"
             size="mini">
@@ -94,7 +94,7 @@
             format="yyyy-MM-dd"
             value-format="yyyyMMdd"
             v-model="editTimeEnd"
-            clearable=true
+            clearable
             placeholder="结束时间"
             style="width: 150px"
             size="mini">
@@ -120,11 +120,11 @@
     </div>
     <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>
     <el-table
+        stripe
         ref="multipleTable"
         :data="articles"
         tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
-        height="600"
         @selection-change="handleSelectionChange"
         v-loading="loading">
       <el-table-column
@@ -140,7 +140,7 @@
       </el-table-column>
       <el-table-column
           label="标题"
-          width="500"
+          width="350"
           align="left">
         <template slot-scope="scope">
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
