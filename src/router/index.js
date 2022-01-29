@@ -10,6 +10,7 @@ import UserMana from '@/components/UserMana'
 import BlogDetail from '@/components/BlogDetail'
 import FilesList from '@/components/FilesList'
 import FilesUpload from '@/components/FilesUpload'
+import WeiboHot from '@/components/hotSearch/WeiboHot'
 
 Vue.use(Router)
 
@@ -82,6 +83,28 @@ export default new Router({
           component: FilesUpload,
           meta: {
             keepAlive: false
+          }
+        }
+      ]
+    }, {
+      path: '/home',
+      component: Home,
+      name: '热搜榜单',
+      iconCls: 'fa fa-file-text-o',
+      children: [
+        {
+          path: '/douyinHot',
+          name: '抖音热搜',
+          component: FilesUpload,
+          meta: {
+            keepAlive: true
+          }
+        }, {
+          path: '/weiboHot',
+          name: '微博热搜',
+          component: WeiboHot,
+          meta: {
+            keepAlive: true
           }
         }
       ]
