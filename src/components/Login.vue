@@ -79,8 +79,7 @@ export default {
   width: 100%;
   height: 100%;
   position: fixed;
-  margin-top: -10px;
-  margin-left: -10px;
+  margin: -8px;
   background-size: 100% 100%;
   background-image: url("../assets/logIn/235a68ce3b119d2c0a8f2fd3b681e082.gif");
 }

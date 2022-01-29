@@ -4,7 +4,7 @@
     <el-table
         stripe
         ref="multipleTable"
-        :data="weiboHotList"
+        :data="douyinHotList"
         tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
         v-loading="loading">
@@ -21,18 +21,18 @@
           align="left">
         <template slot-scope="scope">
           <span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">
-            {{ scope.row.word }}
+            {{ scope.row.title }}
           </span>
         </template>
       </el-table-column>
       <el-table-column
-          prop="category"
-          label="热搜分类"
+          prop="count"
+          label="相关热搜视频数量"
           min-width="10%"
           align="left">
       </el-table-column>
       <el-table-column
-          prop="num"
+          prop="value"
           label="热度值"
           min-width="10%"
           align="left">
@@ -88,7 +88,7 @@
           :total="totalCount"
           @current-change="currentChange"
           @size-change="pageSizeChange"
-          v-show="this.weiboHotList.length>0">
+          v-show="this.douyinHotList.length>0">
       </el-pagination>
     </div>
   </div>
@@ -100,7 +100,7 @@ import {getRequest} from '../../utils/api'
 export default {
   data() {
     return {
-      weiboHotList: [],
+      douyinHotList: [],
       selItems: [],
       loading: false,
       currentPage: 1,
@@ -167,13 +167,13 @@ export default {
       var start = (pageNum - 1) * pageSize;
       var end = pageNum * pageSize;
       debugger;
-      getRequest("/weibo/hotSearch").then(resp => {
+      getRequest("/douYin/hotSearch").then(resp => {
         _this.loading = false;
         debugger;
         if (resp.status == 200) {
-          var weiboHotList = resp.data.data.realtime;
-          _this.weiboHotList = weiboHotList.slice(start, end);
-          _this.totalCount = resp.data.data.realtime.length;
+          var douyinHotList = resp.data.billboard_data;
+          _this.douyinHotList = douyinHotList.slice(start, end);
+          _this.totalCount = resp.data.billboard_data.length;
         } else {
           _this.$message({type: 'error', message: '数据加载失败1!'});
         }
