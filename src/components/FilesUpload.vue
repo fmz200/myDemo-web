@@ -4,7 +4,7 @@
       <img :src="imgSrc" width="100%" height="100%" alt=""/>
     </div>-->
     <div class="upload">
-      <el-col span="8">
+      <el-col :span=8>
         <el-form>
           <el-form-item label="">
             <el-upload
@@ -50,7 +50,7 @@ export default {
     },
 
     upload(item) {
-      debugger;
+
       // this.$refs.upload.submit();
       var fileObj = item.file;
       // 第一步.将图片上传到服务器.
@@ -63,7 +63,7 @@ export default {
     },
 
     beforeUpload(file) {
-      debugger;
+
       console.log("beforeUpload:" + file);
       var xls = file.name.split(".");
       if (xls[1] == "jpg") {

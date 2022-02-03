@@ -12,6 +12,7 @@ import FilesList from '@/components/FilesList'
 import FilesUpload from '@/components/FilesUpload'
 import WeiboHot from '@/components/hotSearch/WeiboHot'
 import DouyinHot from '@/components/hotSearch/DouyinHot'
+import DYHotDetail from '@/components/hotSearch/DYHotDetail'
 
 Vue.use(Router)
 
@@ -106,6 +107,14 @@ export default new Router({
           component: WeiboHot,
           meta: {
             keepAlive: true
+          }
+        }, {
+          path: '/DYHotDetail',
+          name: '抖音热搜详情',
+          component: DYHotDetail,
+          hidden: true,
+          meta: {
+            keepAlive: false
           }
         }
       ]

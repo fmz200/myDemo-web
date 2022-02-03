@@ -45,7 +45,7 @@
     },
     methods: {
       handleClick(tab, event) {
-        debugger;
+
         console.log(tab, event);
       }
     },

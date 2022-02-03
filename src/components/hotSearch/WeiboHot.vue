@@ -119,7 +119,6 @@ export default {
       categoryId: '',
       categoryName: '',
       downloadTimes: 0,
-      state: '',
       uploadTimeStart: '',
       uploadTimeEnd: '',
       editTimeStart: '',
@@ -142,7 +141,7 @@ export default {
     },
 
     itemClick(row) {
-      debugger;
+
       var url = "https://s.weibo.com/weibo?q=%23" + row.word + "%23&topic_ad=";
       console.log("hotSearch.url = " + url);
       window.open(url); // 在新标签页中打开
@@ -166,10 +165,10 @@ export default {
       _this.loading = true;
       var start = (pageNum - 1) * pageSize;
       var end = pageNum * pageSize;
-      debugger;
+
       getRequest("/weibo/hotSearch").then(resp => {
         _this.loading = false;
-        debugger;
+
         if (resp.status == 200) {
           var weiboHotList = resp.data.data.realtime;
           _this.weiboHotList = weiboHotList.slice(start, end);
@@ -179,14 +178,14 @@ export default {
         }
       }, resp => {
         _this.loading = false;
-        debugger;
+
         if (resp.response.status == 403) {
           _this.$message({type: 'error', message: resp.response.data});
         } else {
           _this.$message({type: 'error', message: '数据加载失败2!'});
         }
       }).catch(resp => {
-        debugger;
+
         console.log("load error... " + resp);
         //压根没见到服务器
         _this.loading = false;

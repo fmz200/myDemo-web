@@ -1,12 +1,12 @@
 <template>
   <div>
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
-      <el-col span="8">
-        <el-col span="8" >
+      <el-col :span=8>
+        <el-col :span=8>
           标题：
         </el-col>
         <el-input
-            maxlength=50
+            :maxlength=50
             v-model="title"
             placeholder="支持模糊查询"
             clearable
@@ -15,12 +15,12 @@
         </el-input>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
+      <el-col :span=8>
+        <el-col :span=8>
           作者：
         </el-col>
         <el-input
-            maxlength=50
+            :maxlength=50
             v-model="nickname"
             placeholder="请输入作者"
             clearable
@@ -29,8 +29,8 @@
         </el-input>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
+      <el-col :span=8>
+        <el-col :span=8>
           归属分类：
         </el-col>
         <el-select
@@ -47,12 +47,12 @@
         </el-select>
       </el-col>
 
-      <el-col span="8"></el-col>
+      <el-col :span=8></el-col>
     </div>
 
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
-      <el-col span="8">
-        <el-col span="8">
+      <el-col :span=8>
+        <el-col :span=8>
           发表时间范围：
         </el-col>
         <el-date-picker
@@ -76,8 +76,8 @@
         </el-date-picker>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
+      <el-col :span=8>
+        <el-col :span=8>
           编辑时间范围：
         </el-col>
         <el-date-picker
@@ -101,7 +101,7 @@
         </el-date-picker>
       </el-col>
 
-      <el-col span="8" align="right">
+      <el-col :span=8 align="right">
         <el-button
             type="primary"
             size="small"
@@ -268,9 +268,9 @@ export default {
 
   methods: {
 
-    getCategories(){
+    getCategories() {
       let _this = this;
-      getRequest("/admin/category/all").then(resp=> {
+      getRequest("/admin/category/all").then(resp => {
         _this.categories = resp.data;
       });
     },
@@ -312,7 +312,7 @@ export default {
     loadBlogs(page, count) {
       var _this = this;
       _this.loading = true;
-debugger;
+
       // null问题
       var start = this.publishDateStart == null ? "" : this.publishDateStart;
       var end = this.publishDateEnd == null ? "" : this.publishDateEnd;
@@ -436,7 +436,7 @@ debugger;
         type: 'info'
       }).then(() => {
         _this.loading = true;
-        debugger;
+
         console.log("........................." + param);
         // 方法一
         window.location.href = '/interfaceLog/downloadInterfaceLogs?paramListString=' + param;

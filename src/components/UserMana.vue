@@ -211,7 +211,7 @@ export default {
     },
     loadUserList() {
       var _this = this;
-      debugger;
+
       getRequest("/admin/user?nickname=" + this.keywords).then(resp => {
         _this.loading = false;
         if (resp.status == 200) {

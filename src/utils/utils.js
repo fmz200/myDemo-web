@@ -11,3 +11,8 @@ export const isNotNullORBlank = (...args)=> {
 export const isEmpty = (argument)=> {
   return argument == null || argument == '' || argument == undefined;
 }
+
+export const nalValue = (argument)=> {
+  return isEmpty(argument) ? "" : argument;
+}
+

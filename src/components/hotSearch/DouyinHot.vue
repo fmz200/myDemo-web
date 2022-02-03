@@ -37,40 +37,6 @@
           min-width="10%"
           align="left">
       </el-table-column>
-      <el-table-column
-          label="上传时间"
-          min-width="10%"
-          align="left">
-        <template slot-scope="scope">
-          {{ scope.row.uploadTime | formatDateTime }}
-        </template>
-      </el-table-column>
-      <el-table-column
-          label="修改时间"
-          min-width="10%"
-          align="left">
-        <template slot-scope="scope">
-          {{ scope.row.editTime | formatDateTime }}
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="attrUser"
-          label="归属用户"
-          min-width="10%"
-          align="left">
-      </el-table-column>
-      <el-table-column
-          prop="categoryName"
-          label="所属分类"
-          min-width="10%"
-          align="left">
-      </el-table-column>
-      <el-table-column
-          prop="downloadTimes"
-          label="下载次数"
-          min-width="10%"
-          align="left">
-      </el-table-column>
     </el-table>
     <div class="file_table_footer">
       <el-button
@@ -105,71 +71,43 @@ export default {
       loading: false,
       currentPage: 1,
       totalCount: -1,
-      pageSize: 10,
-      keywords: '',
-      dustbinData: [],
-      categories: [],
-      fileName: '',
-      fileType: '',
-      fileSize: '',
-      filePtah: '',
-      uploadTime: '',
-      editTime: '',
-      attrUser: '',
-      categoryId: '',
-      categoryName: '',
-      downloadTimes: 0,
-      state: '',
-      uploadTimeStart: '',
-      uploadTimeEnd: '',
-      editTimeStart: '',
-      editTimeEnd: ''
+      pageSize: 10
     }
   },
   mounted: function () {
-    var _this = this;
-    this.loading = true;
-    this.loadWeiboHotList(1, this.pageSize);
-/*    window.bus.$on('blogTableReload', function () {
-      _this.loading = true;
-      _this.loadWeiboHotList(_this.currentPage, _this.pageSize);
-    })*/
+    this.loadDouyinHotList(1, this.pageSize);
   },
 
   methods: {
     searchClick() {
-      this.loadWeiboHotList(1, this.pageSize);
+      this.loadDouyinHotList(1, this.pageSize);
     },
 
     itemClick(row) {
-      debugger;
-      var url = "https://s.weibo.com/weibo?q=%23" + row.word + "%23&topic_ad=";
-      console.log("hotSearch.url = " + url);
-      window.open(url); // 在新标签页中打开
-      // javascript:window.location.href='http://baidu.com'; // 在当前标签页中打开
+      this.$router.push({path: '/DYHotDetail', query: {from: this.activeName, data: row}});
     },
 
     //翻页
     currentChange(currentPage) {
       this.currentPage = currentPage;
-      this.loadWeiboHotList(currentPage, this.pageSize);
+      this.loadDouyinHotList(currentPage, this.pageSize);
     },
 
     // x条/页
     pageSizeChange(pageSize) {
       this.pageSize = pageSize;
-      this.loadWeiboHotList(1, this.pageSize);
+      this.loadDouyinHotList(1, this.pageSize);
     },
 
-    loadWeiboHotList(pageNum, pageSize) {
+    loadDouyinHotList(pageNum, pageSize) {
       var _this = this;
       _this.loading = true;
       var start = (pageNum - 1) * pageSize;
       var end = pageNum * pageSize;
-      debugger;
+
       getRequest("/douYin/hotSearch").then(resp => {
         _this.loading = false;
-        debugger;
+
         if (resp.status == 200) {
           var douyinHotList = resp.data.billboard_data;
           _this.douyinHotList = douyinHotList.slice(start, end);
@@ -179,14 +117,14 @@ export default {
         }
       }, resp => {
         _this.loading = false;
-        debugger;
+
         if (resp.response.status == 403) {
           _this.$message({type: 'error', message: resp.response.data});
         } else {
           _this.$message({type: 'error', message: '数据加载失败2!'});
         }
       }).catch(resp => {
-        debugger;
+
         console.log("load error... " + resp);
         //压根没见到服务器
         _this.loading = false;

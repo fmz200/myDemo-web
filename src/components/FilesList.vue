@@ -1,42 +1,36 @@
 <template>
   <div class="files_list">
-    <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
-      <el-col span="8">
-        <el-col span="8">
-          文件名：
-        </el-col>
+    <div class="query_condition">
+      <el-col :span=8>
+        <span>文件名称：</span>
         <el-input
-            maxlength=50
+            :maxlength=50
             v-model="fileName"
             placeholder="支持模糊查询"
             clearable
-            style="width: 150px"
+            style="width: 200px"
             size="mini">
         </el-input>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
-          归属用户：
-        </el-col>
+      <el-col :span=8>
+        <span>归属用户：</span>
         <el-input
-            maxlength=50
+            :maxlength=50
             v-model="attrUser"
             placeholder="请输入用户"
             clearable
-            style="width: 150px"
+            style="width: 200px"
             size="mini">
         </el-input>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
-          归属分类：
-        </el-col>
+      <el-col :span=8>
+        <span>归属分类：</span>
         <el-select
             v-model="categoryId"
             clearable
-            style="width: 150px"
+            style="width: 200px"
             size="mini">
           <el-option
               v-for="item in categories"
@@ -47,61 +41,45 @@
         </el-select>
       </el-col>
 
-      <el-col span="8"></el-col>
+      <el-col :span=8></el-col>
     </div>
 
-    <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
-      <el-col span="8">
-        <el-col span="8">
-          上传时间范围：
-        </el-col>
+    <div class="query_condition">
+      <el-col :span=8>
+        <span>上传时间范围：</span>
         <el-date-picker
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
-            v-model="uploadTimeStart"
-            clearable
-            placeholder="开始时间"
-            style="width: 150px"
-            size="mini">
-        </el-date-picker>
-        <span>-</span>
-        <el-date-picker
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            v-model="uploadTimeEnd"
-            clearable
-            placeholder="结束时间"
-            style="width: 150px"
+            v-model="uploadTime"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 200px"
+            :editable="false"
             size="mini">
         </el-date-picker>
       </el-col>
 
-      <el-col span="8">
-        <el-col span="8">
-          修改时间范围：
-        </el-col>
+      <el-col :span=8>
+        <span>修改时间范围：</span>
         <el-date-picker
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd"
-            v-model="editTimeStart"
-            clearable
-            placeholder="开始时间"
-            style="width: 150px"
-            size="mini">
-        </el-date-picker>
-        <span>-</span>
-        <el-date-picker
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            v-model="editTimeEnd"
-            clearable
-            placeholder="结束时间"
-            style="width: 150px"
+            v-model="editTime"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            style="width: 200px"
+            :editable="false"
             size="mini">
         </el-date-picker>
       </el-col>
 
-      <el-col span="8" align="right">
+      <el-col :span=8></el-col>
+
+      <el-col :span=8 align="right">
         <el-button
             type="primary"
             size="small"
@@ -125,6 +103,8 @@
         :data="filesInfoList"
         tooltip-effect="dark"
         style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
+        :row-style="{height: '0'}"
+        :cell-style="{padding: '3px'}"
         @selection-change="handleSelectionChange"
         v-loading="loading">
       <el-table-column
@@ -149,17 +129,20 @@
           prop="fileType"
           label="文件类型"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
       </el-table-column>
       <el-table-column
           prop="fileSize"
           label="文件大小"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
       </el-table-column>
       <el-table-column
           label="上传时间"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
         <template slot-scope="scope">
           {{ scope.row.uploadTime | formatDateTime }}
@@ -168,6 +151,7 @@
       <el-table-column
           label="修改时间"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
         <template slot-scope="scope">
           {{ scope.row.editTime | formatDateTime }}
@@ -177,23 +161,27 @@
           prop="attrUser"
           label="归属用户"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
       </el-table-column>
       <el-table-column
           prop="categoryName"
           label="所属分类"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
       </el-table-column>
       <el-table-column
           prop="downloadTimes"
           label="下载次数"
           min-width="10%"
+          show-overflow-tooltip
           align="left">
       </el-table-column>
       <el-table-column
           label="操作"
           align="left"
+          show-overflow-tooltip
           min-width="20%">
         <template slot-scope="scope">
           <el-button
@@ -201,12 +189,6 @@
               type="primary"
               @click="handleDownload(scope.$index, scope.row)">
             下载
-          </el-button>
-          <el-button
-              size="mini"
-              type="info"
-              @click="handleEdit(scope.$index, scope.row)">
-            重新上传
           </el-button>
           <el-button
               size="mini"
@@ -250,7 +232,7 @@
 <script>
 import {postRequest, putRequest} from '../utils/api'
 import {getRequest} from '../utils/api'
-import {isEmpty} from "../utils/utils";
+import {isEmpty, nalValue} from "../utils/utils";
 
 export default {
   data() {
@@ -287,7 +269,7 @@ export default {
     this.getCategories();
     this.loadFilesInfoList(1, this.pageSize);
     var _this = this;
-    window.bus.$on('blogTableReload', function () {
+    window.bus.$on('fileListReload', function () {
       _this.loading = true;
       _this.loadFilesInfoList(_this.currentPage, _this.pageSize);
     })
@@ -336,28 +318,36 @@ export default {
     loadFilesInfoList(pageNum, pageSize) {
       var _this = this;
       _this.loading = true;
-      debugger;
-      // null问题
-      var start = this.uploadTimeStart == null ? "" : this.uploadTimeStart;
-      var end = this.uploadTimeEnd == null ? "" : this.uploadTimeEnd;
-      var editTimeStart = this.editTimeStart == null ? "" : this.editTimeStart;
-      var editTimeEnd = this.editTimeEnd == null ? "" : this.editTimeEnd;
-      var state = isEmpty(this.state) ? "" : this.state;
+
+      if (!isEmpty(this.uploadTime)) {
+        this.uploadTimeStart = this.uploadTime[0];
+        this.uploadTimeEnd = this.uploadTime[1];
+      } else {
+        this.uploadTimeStart = "";
+        this.uploadTimeEnd = "";
+      }
+      if (!isEmpty(this.editTime)) {
+        this.editTimeStart = this.editTime[0];
+        this.editTimeEnd = this.editTime[1];
+      } else {
+        this.editTimeStart = "";
+        this.editTimeEnd = "";
+      }
       var param = {
         fileName: this.fileName,
         fileType: this.fileType,
         attrUser: this.attrUser,
         categoryId: this.categoryId,
-        uploadTimeStart: start,
-        uploadTimeEnd: end,
-        editTimeStart: editTimeStart,
-        editTimeEnd: editTimeEnd,
-        state: state,
+        uploadTimeStart: this.uploadTimeStart,
+        uploadTimeEnd: this.uploadTimeEnd,
+        editTimeStart: this.editTimeStart,
+        editTimeEnd: this.editTimeEnd,
+        state: nalValue(this.state),
         pageNum: pageNum,
         pageSize: pageSize
       };
       var url = '';
-      if (state == -2) {
+      if (this.state == -2) {
         url = "/admin/filesController/all"
       } else {
         url = "/filesController/queryFilesInfo"
@@ -412,7 +402,7 @@ export default {
             var data = resp.data;
             _this.$message({type: data.status, message: data.msg});
             if (data.status == 'success') {
-              window.bus.$emit('blogTableReload')//通过选项卡都重新加载数据
+              window.bus.$emit('fileListReload')//通过选项卡都重新加载数据
             }
           } else {
             _this.$message({type: 'error', message: '还原失败!'});
@@ -434,7 +424,7 @@ export default {
     deleteMany() {
       var selItems = this.selItems;
       for (var i = 0; i < selItems.length; i++) {
-        this.dustbinData.push(selItems[i].id)
+        this.dustbinData.push(selItems[i].fileId)
       }
       this.deleteToDustBin(selItems[0].state);
     },
@@ -464,7 +454,7 @@ export default {
         type: 'info'
       }).then(() => {
         _this.loading = true;
-        debugger;
+
         console.log("........................." + param);
         // 方法一
         window.location.href = '/filesController/downloadFiles?paramListString=' + param;
@@ -480,25 +470,21 @@ export default {
     },
 
     deleteToDustBin(state) {
+      debugger;
       var _this = this;
-      this.$confirm(state != 2 ? '将该文件放入回收站，是否继续?' : '永久删除该文件, 是否继续?', '提示', {
+      this.$confirm(state == 1 ? '将该文件放入回收站，是否继续?' : '永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         _this.loading = true;
-        var url = '';
-        if (_this.state == -2) {
-          url = "/admin/article/dustbin";
-        } else {
-          url = "/article/dustbin";
-        }
-        putRequest(url, {aids: _this.dustbinData, state: state}).then(resp => {
+        var url = "/filesController/deleteFiles";
+        postRequest(url, {fileIds: _this.dustbinData, state: state}).then(resp => {
           if (resp.status == 200) {
             var data = resp.data;
-            _this.$message({type: data.status, message: data.msg});
-            if (data.status == 'success') {
-              window.bus.$emit('blogTableReload')//通过选项卡都重新加载数据
+            _this.$message({type: 'success', message: data.msg});
+            if (data.status == '200') {
+              window.bus.$emit('fileListReload')//通过选项卡都重新加载数据
             }
           } else {
             _this.$message({type: 'error', message: '删除失败!'});
@@ -526,6 +512,13 @@ export default {
 <style type="text/css">
 .files_list {
   margin-top: 20px;
+}
+
+.files_list .query_condition {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+  font-size: 1px;
 }
 
 .file_table_footer {

@@ -1,4 +1,4 @@
-<template>
+<template xmlns="">
   <el-container v-loading="loading" class="post-article">
     <el-header class="header">
       <el-select v-model="article.cid" placeholder="请选择文章栏目" style="width: 150px;">
@@ -11,8 +11,8 @@
       </el-select>
       <el-input
           v-model="article.title"
-          minlength=5
-          maxlength=30
+          :minlength=5
+          :maxlength=30
           placeholder="请输入标题..."
           style="width: 400px;margin-left: 10px">
       </el-input>
