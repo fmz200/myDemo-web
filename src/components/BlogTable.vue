@@ -51,7 +51,7 @@
     </div>
 
     <div style="display: flex;justify-content: flex-start; margin-top: 10px;">
-      <el-col :span=8>
+      <el-col :span=10>
         <el-col :span=8>
           发表时间范围：
         </el-col>
@@ -76,7 +76,7 @@
         </el-date-picker>
       </el-col>
 
-      <el-col :span=8>
+      <el-col :span=10>
         <el-col :span=8>
           编辑时间范围：
         </el-col>
@@ -101,7 +101,7 @@
         </el-date-picker>
       </el-col>
 
-      <el-col :span=8 align="right">
+      <el-col :span=4 align="right">
         <el-button
             type="primary"
             size="small"

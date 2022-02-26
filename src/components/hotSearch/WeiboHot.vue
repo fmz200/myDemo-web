@@ -37,40 +37,6 @@
           min-width="10%"
           align="left">
       </el-table-column>
-      <el-table-column
-          label="上传时间"
-          min-width="10%"
-          align="left">
-        <template slot-scope="scope">
-          {{ scope.row.uploadTime | formatDateTime }}
-        </template>
-      </el-table-column>
-      <el-table-column
-          label="修改时间"
-          min-width="10%"
-          align="left">
-        <template slot-scope="scope">
-          {{ scope.row.editTime | formatDateTime }}
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="attrUser"
-          label="归属用户"
-          min-width="10%"
-          align="left">
-      </el-table-column>
-      <el-table-column
-          prop="categoryName"
-          label="所属分类"
-          min-width="10%"
-          align="left">
-      </el-table-column>
-      <el-table-column
-          prop="downloadTimes"
-          label="下载次数"
-          min-width="10%"
-          align="left">
-      </el-table-column>
     </el-table>
     <div class="file_table_footer">
       <el-button

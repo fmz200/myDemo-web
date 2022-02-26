@@ -19,7 +19,7 @@
                 :multiple="true">
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
               <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传文件</el-button>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">支持多文件一次上传，单个文件最大100MB，总共不超过512MB</div>
             </el-upload>
           </el-form-item>
         </el-form>
@@ -35,11 +35,8 @@ export default {
   data() {
     return {
       fileList: [{
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }, {
-        name: 'food2.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        name: '示例文件.jpeg',
+        url: ''
       }],
       imgSrc: require('../assets/back.jpg'),
     };
@@ -64,13 +61,13 @@ export default {
 
     beforeUpload(file) {
 
-      console.log("beforeUpload:" + file);
-      var xls = file.name.split(".");
+      console.log("beforeUpload");
+/*      var xls = file.name.split(".");
       if (xls[1] == "jpg") {
         this.$message.info("你上传的是图片！");
       } else {
         this.$message.info("你上传的不是图片！");
-      }
+      }*/
     },
 
     handleRemove(file, fileList) {

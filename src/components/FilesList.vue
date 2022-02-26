@@ -1,7 +1,7 @@
 <template>
   <div class="files_list">
     <div class="query_condition">
-      <el-col :span=8>
+      <el-col :span=6>
         <span>文件名称：</span>
         <el-input
             :maxlength=50
@@ -12,40 +12,23 @@
             size="mini">
         </el-input>
       </el-col>
-
-      <el-col :span=8>
-        <span>归属用户：</span>
-        <el-input
-            :maxlength=50
-            v-model="attrUser"
-            placeholder="请输入用户"
-            clearable
-            style="width: 200px"
-            size="mini">
-        </el-input>
-      </el-col>
-
-      <el-col :span=8>
-        <span>归属分类：</span>
+      <el-col :span=6>
+        <span>文件类型：</span>
         <el-select
-            v-model="categoryId"
+            v-model="fileTypes"
             clearable
-            style="width: 200px"
+            multiple
+            style="width: 200px;"
             size="mini">
           <el-option
               v-for="item in categories"
-              :key="item.id"
-              :label="item.cateName"
-              :value="item.id">
+              :key="item"
+              :label="item"
+              :value="item">
           </el-option>
         </el-select>
       </el-col>
-
-      <el-col :span=8></el-col>
-    </div>
-
-    <div class="query_condition">
-      <el-col :span=8>
+      <el-col :span=6>
         <span>上传时间范围：</span>
         <el-date-picker
             format="yyyy-MM-dd"
@@ -60,26 +43,7 @@
             size="mini">
         </el-date-picker>
       </el-col>
-
-      <el-col :span=8>
-        <span>修改时间范围：</span>
-        <el-date-picker
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-            v-model="editTime"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            style="width: 200px"
-            :editable="false"
-            size="mini">
-        </el-date-picker>
-      </el-col>
-
-      <el-col :span=8></el-col>
-
-      <el-col :span=8 align="right">
+      <el-col :span=6>
         <el-button
             type="primary"
             size="small"
@@ -96,6 +60,7 @@
         </el-button>
       </el-col>
     </div>
+
     <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>
     <el-table
         stripe
@@ -115,7 +80,7 @@
       </el-table-column>
       <el-table-column
           label="文件名"
-          min-width="20%"
+          min-width="35%"
           show-overflow-tooltip
           align="left">
         <template slot-scope="scope">
@@ -141,7 +106,7 @@
       </el-table-column>
       <el-table-column
           label="上传时间"
-          min-width="10%"
+          min-width="20%"
           show-overflow-tooltip
           align="left">
         <template slot-scope="scope">
@@ -149,32 +114,9 @@
         </template>
       </el-table-column>
       <el-table-column
-          label="修改时间"
-          min-width="10%"
-          show-overflow-tooltip
-          align="left">
-        <template slot-scope="scope">
-          {{ scope.row.editTime | formatDateTime }}
-        </template>
-      </el-table-column>
-      <el-table-column
-          prop="attrUser"
-          label="归属用户"
-          min-width="10%"
-          show-overflow-tooltip
-          align="left">
-      </el-table-column>
-      <el-table-column
-          prop="categoryName"
-          label="所属分类"
-          min-width="10%"
-          show-overflow-tooltip
-          align="left">
-      </el-table-column>
-      <el-table-column
           prop="downloadTimes"
           label="下载次数"
-          min-width="10%"
+          min-width="15%"
           show-overflow-tooltip
           align="left">
       </el-table-column>
@@ -200,7 +142,7 @@
     </el-table>
     <div class="file_table_footer">
       <el-button
-          type="info"
+          type="primary"
           size="mini"
           v-show="this.filesInfoList.length>0"
           :disabled="this.selItems.length==0"
@@ -248,6 +190,7 @@ export default {
       categories: [],
       fileName: '',
       fileType: '',
+      fileTypes: [],
       fileSize: '',
       filePtah: '',
       uploadTime: '',
@@ -268,7 +211,6 @@ export default {
     this.loading = true;
     this.getCategories();
     this.loadFilesInfoList(1, this.pageSize);
-    var _this = this;
     window.bus.$on('fileListReload', function () {
       _this.loading = true;
       _this.loadFilesInfoList(_this.currentPage, _this.pageSize);
@@ -279,8 +221,8 @@ export default {
 
     getCategories() {
       let _this = this;
-      getRequest("/admin/category/all").then(resp => {
-        _this.categories = resp.data;
+      getRequest("/filesController/getFileTypes").then(resp => {
+        _this.categories = resp.data.fileTypes;
       });
     },
 
@@ -295,12 +237,13 @@ export default {
       this.uploadTimeEnd = '';
       this.editTimeStart = '';
       this.editTimeEnd = '';
-      this.fileType = '';
+      this.fileTypes = [];
       this.attrUser = '';
     },
 
     itemClick(row) {
-      this.$router.push({path: '/blogDetail', query: {aid: row.id}})
+      this.$message({type: 'info', message: '文件预览暂不支持!'});
+      //this.$router.push({path: '/blogDetail', query: {aid: row.id}})
     },
 
     //翻页
@@ -335,7 +278,7 @@ export default {
       }
       var param = {
         fileName: this.fileName,
-        fileType: this.fileType,
+        fileTypes: this.fileTypes,
         attrUser: this.attrUser,
         categoryId: this.categoryId,
         uploadTimeStart: this.uploadTimeStart,
@@ -359,20 +302,20 @@ export default {
           _this.filesInfoList = resp.data.filesInfoList;
           _this.totalCount = resp.data.totalCount;
         } else {
-          _this.$message({type: 'error', message: '数据加载失败!'});
+          _this.$message({type: 'error', message: '数据加载失败[100]!'});
         }
       }, resp => {
         _this.loading = false;
         if (resp.response.status == 403) {
           _this.$message({type: 'error', message: resp.response.data});
         } else {
-          _this.$message({type: 'error', message: '数据加载失败!'});
+          _this.$message({type: 'error', message: '数据加载失败[101]!'});
         }
       }).catch(resp => {
         console.log("load error... " + resp);
         //压根没见到服务器
         _this.loading = false;
-        _this.$message({type: 'error', message: '数据加载失败!'});
+        _this.$message({type: 'error', message: '数据加载失败[102]!'});
       })
     },
 
@@ -431,12 +374,13 @@ export default {
 
     // 批量下载
     handleBatchDownload() {
+      debugger
       var selItems = this.selItems;
       var param = '';
       for (var i = 0; i < selItems.length; i++) {
-        var interfaceInfo = selItems[i];
-        var uuid = interfaceInfo.uuid + ',';
-        param += uuid;
+        var fileInfo = selItems[i];
+        var fileId = fileInfo.fileId + ',';
+        param += fileId;
       }
       this.downloadFiles(param);
     },
