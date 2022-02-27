@@ -1,7 +1,9 @@
-<template>
+<template xmlns="" xmlns="" xmlns="" xmlns="">
   <el-container class="home_container">
     <el-header>
-      <div class="home_title">皮皮喵工具平台</div>
+      <div class="home_title">
+        <span class="home_title_t" @click="goHome">皮皮喵工具平台</span>
+      </div>
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link home_userinfo">
@@ -60,7 +62,12 @@ import {getRequest} from '../utils/api'
 
 export default {
   methods: {
+    goHome() {
+      this.$router.replace({path: '/home'});
+    },
+
     handleCommand(command) {
+      debugger;
       var _this = this;
       if (command == 'logout') {
         this.$confirm('注销登录吗?', '提示', {
@@ -74,6 +81,8 @@ export default {
         }, function () {
           //取消
         })
+      } else if (command == "MyHome") {
+        _this.$router.replace({path: '/selfHome'});
       }
     }
   },
@@ -101,8 +110,8 @@ export default {
 .home_container {
   height: 100%;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
 }
 
@@ -129,6 +138,10 @@ export default {
   color: #fff;
   font-size: 22px;
   display: inline;
+}
+
+.home_title_t {
+  cursor: pointer;
 }
 
 .home_userinfo {

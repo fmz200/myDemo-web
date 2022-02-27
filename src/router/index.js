@@ -13,6 +13,7 @@ import FilesUpload from '@/components/FilesUpload'
 import WeiboHot from '@/components/hotSearch/WeiboHot'
 import DouyinHot from '@/components/hotSearch/DouyinHot'
 import DYHotDetail from '@/components/hotSearch/DYHotDetail'
+import SelfHome from '@/components/system/SelfHome'
 
 Vue.use(Router)
 
@@ -122,12 +123,21 @@ export default new Router({
       path: '/home',
       component: Home,
       name: '用户管理',
+      iconCls: 'fa fa-user-o',
       children: [
         {
           path: '/user',
           iconCls: 'fa fa-user-o',
           name: '用户管理',
           component: UserMana
+        }, {
+          path: '/selfHome',
+          name: '个人中心',
+          component: SelfHome,
+          hidden: true,
+          meta: {
+            keepAlive: false
+          }
         }
       ]
     }, {
