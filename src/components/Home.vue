@@ -67,7 +67,6 @@ export default {
     },
 
     handleCommand(command) {
-      debugger;
       var _this = this;
       if (command == 'logout') {
         this.$confirm('注销登录吗?', '提示', {

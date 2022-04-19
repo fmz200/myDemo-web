@@ -61,7 +61,7 @@
       </el-col>
     </div>
 
-    <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0px"></div>
+    <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0"></div>
     <el-table
         stripe
         ref="multipleTable"
@@ -374,7 +374,6 @@ export default {
 
     // 批量下载
     handleBatchDownload() {
-      debugger
       var selItems = this.selItems;
       var param = '';
       for (var i = 0; i < selItems.length; i++) {
@@ -414,7 +413,6 @@ export default {
     },
 
     deleteToDustBin(state) {
-      debugger;
       var _this = this;
       this.$confirm(state == 1 ? '将该文件放入回收站，是否继续?' : '永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',

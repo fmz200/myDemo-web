@@ -52,7 +52,6 @@ export default {
 
   methods: {
     submitForm(formName) {
-      debugger
       var _this = this;
       var oldPassword = _this.passwordForm.oldPassword;
       if (isEmpty(oldPassword)){

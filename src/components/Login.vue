@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     submitClick: function () {
-      debugger;
       var _this = this;
       var username = this.loginForm.username;
       var password = this.loginForm.password;
