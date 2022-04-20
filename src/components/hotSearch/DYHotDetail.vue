@@ -26,8 +26,7 @@
           </span>
         </div>
         <div>
-          <el-col :span="4" v-for="(item,index) in videoList" :key="index" align="left" style="border: 5px">
-            <div style="width: 100%;height: 1px;background-color: #20a0ff;margin-top: 8px;margin-bottom: 0"></div>
+          <el-col :span="4" v-for="(item,index) in videoList" :key="index" align="left" class="video_style">
             <video-player
                 class="video-player vjs-custom-skin"
                 ref="videoPlayer"
@@ -46,13 +45,15 @@
                 @ready="playerReadied"
             >
             </video-player>
-            <!--            <el-row>
-                          <img class="img_style" :src="item.img_url" alt="视频封面" :title="item.title" @click="itemClick(item)"/>
-                        </el-row>-->
-            <el-row>
-                <span style="color: #409eff;cursor: pointer" @click="itemClick(item)">
-                  {{ item.title }}
-                </span>
+            <!-- 不加这个meta会提示Failed to load resource: the server responded with a status of 403 (Forbidden)-->
+            <!-- VIDEOJS: ERROR: (CODE:4 MEDIA_ERR_SRC_NOT_SUPPORTED) The media could not be loaded,
+            either because the server or network failed or because the format is not supported.-->
+            <meta name="referrer" content="never">
+            <el-row class="title_row_style">
+              <el-row class="">视频热度排行：{{ index + 1 }}</el-row>
+              <span class="title_style" :title=item.title @click="itemClick(item)">
+                {{ item.title.length > 70 ? item.title.substring(0, 70) + "......" : item.title }}
+              </span>
             </el-row>
           </el-col>
         </div>
@@ -64,7 +65,7 @@
 </template>
 <script>
 
-import {getRequest, postRequest} from "../../utils/api";
+import {postRequest} from "../../utils/api";
 
 export default {
   methods: {
@@ -132,6 +133,7 @@ export default {
     },
 
     getRealVideoUPath(videoList) {
+      this.loading = true;
       var _this = this;
       var linkList = [];
       for (var v = 0; v < videoList.length; v++) {
@@ -148,11 +150,14 @@ export default {
           }
           this.buildVideoPlayers(videoList, urlMaps);
         } else {
+          this.loading = false;
           _this.$message({type: 'error', message: '视频数据加载失败!'});
         }
       }, resp => {
+        this.loading = false;
         console.log("load error1... " + resp);
       }).catch(resp => {
+        this.loading = false;
         console.log("load error2... " + resp);
       })
     },
@@ -167,7 +172,7 @@ export default {
         var itemId = video.link.substring(videoIndex + 6, index - 1); // 视频的itemId
 
         var videoPlayer = {
-          playbackRates: [0.5, 1.0, 1.5, 2.0], // 可选的播放速度
+          playbackRates: [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0], // 可选的播放速度
           autoplay: false, // 如果为true,浏览器准备好时开始回放。
           muted: false, // 默认情况下将会消除任何音频。
           loop: false, // 是否视频一结束就重新开始。
@@ -191,25 +196,22 @@ export default {
         videoPlayers.push(videoPlayer);
       }
       _this.playerOptions = videoPlayers;
+      this.loading = false;
     }
 
   },
   mounted: function () {
-
+    // this.loading = true;设置到这个方法里面不生效。。。
     var douYinDetail = this.$route.query.data;
     this.activeName = this.$route.query.activeName;
     var _this = this;
-    this.loading = true;
     _this.title = douYinDetail.title;
     _this.hotValve = douYinDetail.value;
     _this.mapList = douYinDetail.map_list;
     _this.rank = douYinDetail.rank;
     _this.count = douYinDetail.count;
-    var videoList = douYinDetail.extra_list;
-    _this.videoList = videoList;
-
-    this.getRealVideoUPath(videoList);
-    this.loading = false;
+    _this.videoList = douYinDetail.extra_list;
+    this.getRealVideoUPath(douYinDetail.extra_list);
   },
   data() {
     return {
@@ -229,7 +231,30 @@ export default {
 </script>
 
 <style type="text/css">
-.img_style {
+.title_style {
+  color: #409eff;
   cursor: pointer;
+
+}
+
+.title_row_style {
+  height: 70px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+// 超出一定长度鼠标悬停时显示气泡
+.title_style_backup {
+  color: #409eff;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.video_style {
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 </style>
